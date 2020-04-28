@@ -1,20 +1,18 @@
-//Dummy to just write the code
 import {IUser} from '@entities/User'
-class IPost{}
-class IComment{}
+import {IPosts} from '@entities/Posts'
+// we will not add comments in post table for comments we have PostDetails
 
 export interface IPostDao{
-    getAllPostsForUser : (user : IUser) => Promise<IPost | null>;
-    addPosts : (user:IUser,post:IPost) => Promise<void>;
-    deletePosts : (user : IUser, post : IPost) => Promise<void>;
-    addPostComment : (post : IPost, comment : IComment, user : IUser) => Promise<void>;
+    getAllPostsForUser : (user : IUser) => Promise<IPosts | null>;
+    addPosts : (user:IUser,post:IPosts) => Promise<void>;
+    deletePosts : (user : IUser, post : IPosts) => Promise<void>;
 }
 
 class PostDao implements IPostDao{
-    getAllPostsForUser: (user: IUser) => Promise<IPost | null>;
-    addPosts: (user: IUser, post: IPost) => Promise<void>;
-    deletePosts: (user: IUser, post: IPost) => Promise<void>;
-    addPostComment: (post: IPost, comment: IComment, user: IUser) => Promise<void>;
+    getAllPostsForUser: (user: IUser) => Promise<IPosts | null>;
+    addPosts: (user: IUser, post: IPosts) => Promise<void>;
+    deletePosts: (user: IUser, post: IPosts) => Promise<void>;
+    addPostComment: (post: IPosts, comment: IComment, user: IUser) => Promise<void>;
 
 }
 
