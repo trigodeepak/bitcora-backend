@@ -12,7 +12,8 @@
     "@daos": "dist/daos",
     "@entities": "dist/entities",
     "@shared": "dist/shared",
-    "@server": "dist/Server"
+    "@server": "dist/Server",
+    "@service": "dist/service"
   },
   "dependencies": {
     "command-line-args": "^5.1.1",

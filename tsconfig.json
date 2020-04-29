@@ -24,7 +24,10 @@
       ],
       "@server": [
         "src/Server"
-      ]
+      ],
+      "@service/*": [
+        "src/service/*"
+      ],
     },
     "types": [
       "node"
