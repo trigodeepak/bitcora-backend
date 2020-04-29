@@ -1,7 +1,8 @@
-//Dummy to just write the code
 import {IUser} from '@entities/User'
-class IPost{}
+import {IPost} from '@entities/Posts'
+
 class IComment{}
+// we will not add comments in post table for comments we have PostDetails
 
 export interface IPostDao{
     getAllPostsForUser : (user : IUser) => Promise<IPost[] | null>;
