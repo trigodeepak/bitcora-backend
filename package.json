@@ -16,6 +16,7 @@
     "@service": "dist/service"
   },
   "dependencies": {
+    "@types/mongodb": "^3.5.14",
     "command-line-args": "^5.1.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
@@ -24,6 +25,7 @@
     "helmet": "^3.22.0",
     "http-status-codes": "^1.4.0",
     "module-alias": "^2.2.2",
+    "mongodb": "3.5.6",
     "morgan": "^1.10.0",
     "winston": "^3.2.1"
   },

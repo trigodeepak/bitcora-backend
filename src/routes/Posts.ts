@@ -58,7 +58,7 @@ router.put('/update', async (req: Request, res: Response) => {
     const user = commentUser.user;
     const post = commentUser.post;
     const comment = commentUser.comment;
-    await service.addPostComment(post,comment,user);
+    // await service.addPostComment(post,comment,user);
     return res.status(OK).end();
 });
 

@@ -1,19 +1,19 @@
 import {IUser} from '@entities/User'
 import {IPost} from '@entities/Posts'
 
-class IComment{}
+// class IComment{}
 // we will not add comments in post table for comments we have PostDetails
 
 export interface IPostDao{
     getAllPostsForUser : (user : IUser) => Promise<IPost[] | null>;
     addPosts : (user:IUser,post:IPost) => Promise<void>;
     deletePosts : (user : IUser, post : IPost) => Promise<void>;
-    addPostComment : (post : IPost, comment : IComment, user : IUser) => Promise<void>;
+    // addPostComment : (post : IPost, comment : IComment, user : IUser) => Promise<void>;
 }
 
 class PostDao implements IPostDao{
 
-    //Do the db calls here 
+    // Do the db calls here
     public async getAllPostsForUser(user: IUser) : Promise<IPost[] | null>{
         console.log('Came to getAllPostsForUser ');
         return [] as any;
@@ -29,10 +29,10 @@ class PostDao implements IPostDao{
         return {} as any;
     }
 
-    public async addPostComment(post : IPost, comment : IComment, user : IUser):Promise<void>{
-        console.log('Came to addPostComment ');
-        return {} as any;
-    }
+    // public async addPostComment(post : IPost, comment : IComment, user : IUser):Promise<void>{
+    //     console.log('Came to addPostComment ');
+    //     return {} as any;
+    // }
 
 }
 

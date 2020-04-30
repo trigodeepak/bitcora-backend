@@ -3,7 +3,7 @@ import { IPost } from '@entities/Posts'
 import PostDao from '@daos/Posts/PostDao'
 
 
-class IComment { }
+// class IComment { }
 
 const postDao = new PostDao();
 
@@ -11,7 +11,7 @@ export interface Iservice {
     getAllPostsForUser: (user: IUser) => Promise<IPost[]| null>;
     addPosts: (user: IUser, post: IPost) => Promise<void>;
     deletePosts: (user: IUser, post: IPost) => Promise<void>;
-    addPostComment: (post: IPost, comment: IComment, user: IUser) => Promise<void>;
+    // addPostComment: (post: IPost, comment: IComment, user: IUser) => Promise<void>;
 }
 
 class Service implements Iservice {
@@ -21,7 +21,7 @@ class Service implements Iservice {
             .then((data: any) => {
                 return data;
             }).catch((err: any) => {
-                let error = new Error("Post details are not fetched");
+                const error = new Error('Post details are not fetched');
                 throw error;
             })
         return {} as any;
@@ -49,16 +49,16 @@ class Service implements Iservice {
         return {} as any;
     }
 
-    public async addPostComment(post: IPost, comment: IComment, user: IUser):Promise<void>{
-        const posts = await postDao.addPostComment(post,comment,user)
-            .then((data: any) => {
-                return data;
-            }).catch((err: any) => {
-                let error = new Error("Post comment is not added properly");
-                throw error;
-            })
-        return {} as any;
-    }
+    // public async addPostComment(post: IPost, comment: IComment, user: IUser):Promise<void>{
+    //     const posts = await postDao.addPostComment(post,comment,user)
+    //         .then((data: any) => {
+    //             return data;
+    //         }).catch((err: any) => {
+    //             let error = new Error("Post comment is not added properly");
+    //             throw error;
+    //         })
+    //     return {} as any;
+    // }
 
 
 }

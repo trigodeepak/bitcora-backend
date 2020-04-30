@@ -9,10 +9,9 @@ import 'express-async-errors';
 
 import BaseRouter from './routes';
 import logger from '@shared/Logger';
-
-
 // Init express
 const app = express();
+const mongoDB = require('./mongoDB');
 
 
 
@@ -33,6 +32,8 @@ if (process.env.NODE_ENV === 'development') {
 if (process.env.NODE_ENV === 'production') {
     app.use(helmet());
 }
+app.use(mongoDB);
+
 
 // Add APIs
 app.use('/api', BaseRouter);
