@@ -16,6 +16,7 @@
     "@service": "dist/service"
   },
   "dependencies": {
+    "@types/mongoose": "^5.7.14",
     "command-line-args": "^5.1.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
@@ -24,6 +25,9 @@
     "helmet": "^3.22.0",
     "http-status-codes": "^1.4.0",
     "module-alias": "^2.2.2",
+    "mongo": "^0.1.0",
+    "mongodb": "^3.5.7",
+    "mongoose": "^5.9.11",
     "morgan": "^1.10.0",
     "winston": "^3.2.1"
   },
@@ -35,6 +39,7 @@
     "@types/helmet": "0.0.46",
     "@types/jasmine": "^3.5.10",
     "@types/jsonfile": "^5.0.0",
+    "@types/mongodb": "^3.5.14",
     "@types/morgan": "^1.9.0",
     "@types/node": "^13.13.4",
     "@types/supertest": "^2.0.8",

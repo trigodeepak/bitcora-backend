@@ -9,13 +9,16 @@ import 'express-async-errors';
 
 import BaseRouter from './routes';
 import logger from '@shared/Logger';
+import connection from '@daos/connection';
 
 
 // Init express
 const app = express();
 
-
-
+if(process.env.CONNECTION_STRING)
+    connection(process.env.CONNECTION_STRING);
+else
+    console.log('Error connecting to DB')
 /************************************************************************************
  *                              Set basic express settings
  ***********************************************************************************/

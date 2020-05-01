@@ -4,7 +4,7 @@ import { ParamsDictionary } from 'express-serve-static-core';
 
 import { paramMissingError } from '@shared/constants';
 import Service from '@service/service'
-import Post from '@entities/Posts';
+import Post, { IPost } from '@entities/Posts';
 
 // Init shared
 const router = Router();
@@ -23,16 +23,17 @@ router.get('/all', async (req: Request, res: Response) => {
 });
 
 router.post('/add', async (req: Request, res: Response) => {
-    const { userPost } = req.body;
-    if (!userPost) {
+    const { user } = req.body;
+    const { post } = req.body;
+    console.log(user);
+    console.log(post);
+    if (!user) {
         return res.status(BAD_REQUEST).json({
             error: paramMissingError,
         });
     }
-    const user = userPost.user;
-    const post = userPost.post;
-    await service.addPosts(user,post);
-    return res.status(CREATED).end();
+    const posts = await service.addPosts(user,post);
+    return res.status(CREATED).json({posts});
 });
 
 router.delete('/delete', async (req: Request, res: Response) => {

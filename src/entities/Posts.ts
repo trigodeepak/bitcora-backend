@@ -1,6 +1,7 @@
 import {IUser} from '@entities/User';
+import mongoose = require("mongoose");
 
-export interface IPost {
+export interface IPost{
     id: number;
     title: string;
     subTitle: string;
