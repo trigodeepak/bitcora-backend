@@ -57,7 +57,14 @@ router.post('/addcomment', async (req: Request, res: Response) => {
             error: paramMissingError,
         });
     }
+<<<<<<< HEAD
     await postDao.addPostComment(post,comment,user);
+=======
+    const user = commentUser.user;
+    const post = commentUser.post;
+    const comment = commentUser.comment;
+    // await service.addPostComment(post,comment,user);
+>>>>>>> c9e4fa3378cb80ba6f813ddecab9ba7ca446ef03
     return res.status(OK).end();
 });
 

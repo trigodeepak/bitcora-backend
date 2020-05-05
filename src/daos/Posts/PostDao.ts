@@ -5,6 +5,7 @@ import {postSchema} from '@daos/schema'
 import {commentSchema} from '@daos/schema'
 
 
+<<<<<<< HEAD
 // we will not add comments in post table for comments we have PostDetails
 
 export interface IPostDao{
@@ -12,12 +13,27 @@ export interface IPostDao{
     addPosts : (userId:string,post:IPost) => Promise<IPost>;
     deletePosts : (userId:string,post : IPost) => Promise<void>;
     addPostComment : (post : IPost, comment : IComment, user : IUser) => Promise<void>;
+=======
+// class IComment{}
+// we will not add comments in post table for comments we have PostDetails
+
+export interface IPostDao{
+    getAllPostsForUser : (user : IUser) => Promise<IPost[] | null>;
+    addPosts : (user:IUser,post:IPost) => Promise<void>;
+    deletePosts : (user : IUser, post : IPost) => Promise<void>;
+    // addPostComment : (post : IPost, comment : IComment, user : IUser) => Promise<void>;
+>>>>>>> c9e4fa3378cb80ba6f813ddecab9ba7ca446ef03
 }
 
 class PostDao implements IPostDao{
 
+<<<<<<< HEAD
     //Do the db calls here
     public async getAllPostsForUser(user: IUser) : Promise<any[] | null>{
+=======
+    // Do the db calls here
+    public async getAllPostsForUser(user: IUser) : Promise<IPost[] | null>{
+>>>>>>> c9e4fa3378cb80ba6f813ddecab9ba7ca446ef03
         console.log('Came to getAllPostsForUser ');
         const result = await postSchema.find({userId:user.id});
         console.log(result);
@@ -49,6 +65,7 @@ class PostDao implements IPostDao{
         return {} as any;
     }
 
+<<<<<<< HEAD
     public async addPostComment(post : IPost, comment : IComment, user : IUser):Promise<void>{
         console.log('Came to addPostComment ');
         comment.userId = user.id;
@@ -75,6 +92,12 @@ class PostDao implements IPostDao{
         //Todo handle error 
         return {} as any;
     }
+=======
+    // public async addPostComment(post : IPost, comment : IComment, user : IUser):Promise<void>{
+    //     console.log('Came to addPostComment ');
+    //     return {} as any;
+    // }
+>>>>>>> c9e4fa3378cb80ba6f813ddecab9ba7ca446ef03
 
 }
 
