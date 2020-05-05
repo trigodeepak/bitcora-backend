@@ -1,6 +1,6 @@
 import {IUser} from '@entities/User'
 import {IPost} from '@entities/Posts'
-
+import logger from '@shared/Logger';
 // class IComment{}
 // we will not add comments in post table for comments we have PostDetails
 
@@ -15,17 +15,17 @@ class PostDao implements IPostDao{
 
     // Do the db calls here
     public async getAllPostsForUser(user: IUser) : Promise<IPost[] | null>{
-        console.log('Came to getAllPostsForUser ');
+        logger.log('Came to getAllPostsForUser ');
         return [] as any;
     }
 
     public async addPosts(user:IUser,post:IPost):Promise<void>{
-        console.log('Came to addPosts ');
+        logger.log('Came to addPosts ');
         return {} as any;
     }
 
     public async deletePosts(user: IUser,post: IPost):Promise<void>{
-        console.log('Came to deletePosts ');
+        logger.log('Came to deletePosts');
         return {} as any;
     }
 

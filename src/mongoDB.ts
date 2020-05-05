@@ -1,4 +1,6 @@
 import {config} from '@shared/constants'
+import logger from '@shared/Logger';
+
 
 import mongo from 'mongodb'
 module.exports = async()=> {
@@ -8,7 +10,7 @@ module.exports = async()=> {
 
         db.collection('users').find().toArray((err:any, result:any) =>{
             if (err) throw err;
-            console.log(result)
+            logger.log(result)
         })
     });
 };
