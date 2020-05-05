@@ -3,12 +3,12 @@ import { BAD_REQUEST, CREATED, OK } from 'http-status-codes';
 import { ParamsDictionary } from 'express-serve-static-core';
 
 import { paramMissingError } from '@shared/constants';
-import Service from '@service/service'
-import Post, { IPost } from '@entities/Posts';
+import { IPost } from '@entities/Posts';
+import PostDao from '@daos/Posts/PostDao';
 
 // Init shared
 const router = Router();
-const service = new Service();
+const postDao = new PostDao();
 
 
 router.get('/all', async (req: Request, res: Response) => {
@@ -18,49 +18,58 @@ router.get('/all', async (req: Request, res: Response) => {
             error: paramMissingError,
         });
     }
-    const posts = await service.getAllPostsForUser(user);
+    const posts = await postDao.getAllPostsForUser(user);
     return res.status(OK).json({posts});
 });
 
 router.post('/add', async (req: Request, res: Response) => {
     const { user } = req.body;
     const { post } = req.body;
-    console.log(user);
-    console.log(post);
-    if (!user) {
+    if (!user || !post) {
         return res.status(BAD_REQUEST).json({
             error: paramMissingError,
         });
     }
-    const posts = await service.addPosts(user,post);
+    const posts = await postDao.addPosts(user.id,post);
     return res.status(CREATED).json({posts});
 });
 
+//Make an api to update post 
+
 router.delete('/delete', async (req: Request, res: Response) => {
-    const { userPost } = req.body;
-    if (!userPost) {
+    const { user } = req.body;
+    const { post } = req.body;
+    if (!user || !post) {
         return res.status(BAD_REQUEST).json({
             error: paramMissingError,
         });
     }
-    const user = userPost.user;
-    const post = userPost.post;
-    await service.deletePosts(user,post);
+    await postDao.deletePosts(user.id,post);
     return res.status(OK).end();
 });
 
-router.put('/update', async (req: Request, res: Response) => {
-    const { commentUser } = req.body;
-    if (!commentUser) {
+router.post('/addcomment', async (req: Request, res: Response) => {
+    const { user } = req.body;
+    const { post } = req.body;
+    const { comment } = req.body;
+    if (!user || !post) {
         return res.status(BAD_REQUEST).json({
             error: paramMissingError,
         });
     }
-    const user = commentUser.user;
-    const post = commentUser.post;
-    const comment = commentUser.comment;
-    await service.addPostComment(post,comment,user);
+    await postDao.addPostComment(post,comment,user);
     return res.status(OK).end();
+});
+
+router.get('/allcomments', async (req: Request, res: Response) => {
+    const { post } = req.body;
+    if (!post) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
+    const comments = await postDao.getAllCommentsForPost(post);
+    return res.status(OK).json({comments});
 });
 
 export default router;

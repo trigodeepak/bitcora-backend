@@ -1,61 +1,44 @@
 import { IUser } from '@entities/User';
-
+import { userSchema } from '@daos/schema';
 
 export interface IUserDao {
-    getOne: (email: string) => Promise<IUser | null>;
-    getAll: () => Promise<IUser[]>;
+    getOne: (email: string) => Promise<any | null>;
+    getAll: () => Promise<any[]>;
     add: (user: IUser) => Promise<void>;
     update: (user: IUser) => Promise<void>;
-    delete: (id: number) => Promise<void>;
+    delete: (email:string) => Promise<void>;
 }
 
 class UserDao implements IUserDao {
 
-
-    /**
-     * @param email
-     */
-    public async getOne(email: string): Promise<IUser | null> {
-        // TODO
-        return [] as any;
+    public async getOne(email: string): Promise<any | null> {
+        const result = await userSchema.find({email:email});
+        console.log(result);
+        return result;
     }
 
-
-    /**
-     *
-     */
-    public async getAll(): Promise<IUser[]> {
-        // TODO
-        return [] as any;
+    public async getAll(): Promise<any[]> {
+        const result = await userSchema.find();
+        console.log(result);
+        return result;
     }
 
-
-    /**
-     *
-     * @param user
-     */
     public async add(user: IUser): Promise<void> {
-        // TODO
+        const result = await userSchema.create(user);
+        console.log(result);
         return {} as any;
     }
 
-
-    /**
-     *
-     * @param user
-     */
     public async update(user: IUser): Promise<void> {
-        // TODO
+        //Not working properly need to fix this 
+        const result = await userSchema.updateOne({email:user.email},{$set:{name:user.name,email:user.email}});
+        console.log(result);
         return {} as any;
     }
 
-
-    /**
-     *
-     * @param id
-     */
-    public async delete(id: number): Promise<void> {
-        // TODO
+    public async delete(email:string): Promise<void> {
+        const result = await userSchema.deleteOne({email:email});
+        console.log(result);
         return {} as any;
     }
 }

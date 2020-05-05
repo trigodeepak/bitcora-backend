@@ -1,16 +1,16 @@
 import User, { IUser } from '@entities/User'
 import { IPost } from '@entities/Posts'
 import PostDao from '@daos/Posts/PostDao'
-
-
-class IComment { }
+import {IComment} from '@entities/Posts'
 
 const postDao = new PostDao();
 
+//Not using this now
+
 export interface Iservice {
     getAllPostsForUser: (user: IUser) => Promise<IPost[]| null>;
-    addPosts: (user: IUser, post: IPost) => Promise<IPost>;
-    deletePosts: (user: IUser, post: IPost) => Promise<void>;
+    addPosts: (userId: string, post: IPost) => Promise<IPost>;
+    deletePosts: (userId: string, post: IPost) => Promise<void>;
     addPostComment: (post: IPost, comment: IComment, user: IUser) => Promise<void>;
 }
 
@@ -21,13 +21,13 @@ class Service implements Iservice {
         return posts;
     }
 
-    public async addPosts(user: IUser, post: IPost) :Promise<IPost> {
-        const posts = await postDao.addPosts(user,post);
+    public async addPosts(userId: string, post: IPost) :Promise<IPost> {
+        const posts = await postDao.addPosts(userId,post);
         return posts;
     }
 
-    public async deletePosts(user: IUser, post: IPost):Promise<void> {
-        const posts = await postDao.deletePosts(user,post);            
+    public async deletePosts(userId: string, post: IPost):Promise<void> {
+        const posts = await postDao.deletePosts(userId,post);            
         return {} as any;
     }
 
