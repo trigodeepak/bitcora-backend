@@ -9,12 +9,9 @@ import 'express-async-errors';
 
 import BaseRouter from './routes';
 import logger from '@shared/Logger';
-<<<<<<< HEAD
 import connection from '@daos/connection';
 
 
-=======
->>>>>>> c9e4fa3378cb80ba6f813ddecab9ba7ca446ef03
 // Init express
 const app = express();
 const mongoDB = require('./mongoDB');

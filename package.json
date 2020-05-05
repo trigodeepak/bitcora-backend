@@ -16,11 +16,7 @@
     "@service": "dist/service"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@types/mongoose": "^5.7.14",
-=======
-    "@types/mongodb": "^3.5.14",
->>>>>>> c9e4fa3378cb80ba6f813ddecab9ba7ca446ef03
     "command-line-args": "^5.1.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
@@ -29,13 +25,9 @@
     "helmet": "^3.22.0",
     "http-status-codes": "^1.4.0",
     "module-alias": "^2.2.2",
-<<<<<<< HEAD
     "mongo": "^0.1.0",
     "mongodb": "^3.5.7",
     "mongoose": "^5.9.11",
-=======
-    "mongodb": "3.5.6",
->>>>>>> c9e4fa3378cb80ba6f813ddecab9ba7ca446ef03
     "morgan": "^1.10.0",
     "winston": "^3.2.1"
   },
