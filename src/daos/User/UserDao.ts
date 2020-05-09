@@ -31,7 +31,17 @@ class UserDao implements IUserDao {
 
     public async update(user: IUser): Promise<void> {
         //Not working properly need to fix this 
-        const result = await userSchema.updateOne({email:user.email},{$set:{name:user.name,email:user.email}});
+        const Entries : any = Object.keys(user)
+        const Updates : any = {}
+
+        // constructing dynamic query
+
+        for (let i = 0; i < Entries.length; i++) {
+            Updates[Entries[i]] = Object.values(user)[i]
+        }
+        console.log(Updates)
+
+        const result = await userSchema.updateOne({_id:user.id},{$set:{name:user.name,email:user.email}});
         console.log(result);
         return {} as any;
     }

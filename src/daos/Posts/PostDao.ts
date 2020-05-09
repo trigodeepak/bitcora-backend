@@ -16,7 +16,6 @@ export interface IPostDao{
 
 class PostDao implements IPostDao{
 
-    //Do the db calls here
     public async getAllPostsForUser(user: IUser) : Promise<any[] | null>{
         console.log('Came to getAllPostsForUser ');
         const result = await postSchema.find({userId:user.id});
@@ -34,8 +33,7 @@ class PostDao implements IPostDao{
     }
 
     public async updatePosts(post: IPost): Promise<void> {
-        //Not working properly need to fix this 
-        const result = await postSchema.updateOne({id:post.id},{$set:{title:post.title,content:post.content}});
+        const result = await postSchema.updateOne({_id:post.id},{$set:{title:post.title,content:post.content}});
         console.log(result);
         return {} as any;
     }
@@ -43,9 +41,13 @@ class PostDao implements IPostDao{
     public async deletePosts(userId: string,post: IPost):Promise<void>{
         console.log('Came to deletePosts ');
         if(post.userId === userId){
-            const result = await postSchema.deleteOne({id:post.id,userId:userId});
+            try{
+                const result = await postSchema.deleteOne({id:post.id,userId:userId});
+            }catch(exp){
+                console.log("Error while updating " + exp);
+            }
+            
         }
-        //Todo handle error 
         return {} as any;
     }
 
@@ -60,7 +62,8 @@ class PostDao implements IPostDao{
 
     public async getAllCommentsForPost(post:IPost) : Promise<any[] | null>{
         console.log('Came to getAllCommentsForPost ');
-        const result = await commentSchema.find({postId:post.id});
+        const result = commentSchema.find({postId:post.id})
+        
         console.log(result);
         return result;
     }
