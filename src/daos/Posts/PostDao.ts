@@ -9,6 +9,7 @@ import {commentSchema} from '@daos/schema'
 
 export interface IPostDao{
     getAllPostsForUser : (user : IUser) => Promise<any[] | null>;
+    getAllPosts : () => Promise<any[] | null>;
     addPosts : (userId:string,post:IPost) => Promise<IPost>;
     deletePosts : (userId:string,post : IPost) => Promise<void>;
     addPostComment : (post : IPost, comment : IComment, user : IUser) => Promise<void>;
@@ -20,6 +21,12 @@ class PostDao implements IPostDao{
     public async getAllPostsForUser(user: IUser) : Promise<any[] | null>{
         console.log('Came to getAllPostsForUser ');
         const result = await postSchema.find({userId:user.id});
+        console.log(result);
+        return result;
+    }
+    public async getAllPosts() : Promise<any[] | null>{
+        console.log('Came to getAllPosts ');
+        const result = await postSchema.find();
         console.log(result);
         return result;
     }

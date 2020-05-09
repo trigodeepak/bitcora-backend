@@ -22,6 +22,11 @@ router.get('/all', async (req: Request, res: Response) => {
     return res.status(OK).json({posts});
 });
 
+router.get('/allPosts', async (req: Request, res: Response) => {
+    const posts = await postDao.getAllPosts();
+    return res.status(OK).json(posts);
+});
+
 router.post('/add', async (req: Request, res: Response) => {
     const { user } = req.body;
     const { post } = req.body;
