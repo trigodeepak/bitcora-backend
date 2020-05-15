@@ -39,7 +39,7 @@ router.post('/add', async (req: Request, res: Response) => {
     return res.status(CREATED).json({posts});
 });
 
-// Make an api to update post
+//Make an api to update post 
 
 router.delete('/delete', async (req: Request, res: Response) => {
     const { user } = req.body;
