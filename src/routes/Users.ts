@@ -47,7 +47,6 @@ router.put('/update', async (req: Request, res: Response) => {
             error: paramMissingError,
         });
     }
-    user.id = Number(user.id);
     await userDao.update(user);
     return res.status(OK).end();
 });

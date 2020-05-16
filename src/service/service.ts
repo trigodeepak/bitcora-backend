@@ -5,10 +5,9 @@ import {IComment} from '@entities/Posts'
 
 const postDao = new PostDao();
 
-//Not using this now
-
 export interface Iservice {
     getAllPostsForUser: (user: IUser) => Promise<IPost[]| null>;
+    getAllPosts: () => Promise<IPost[]| null>;
     addPosts: (userId: string, post: IPost) => Promise<IPost>;
     deletePosts: (userId: string, post: IPost) => Promise<void>;
     addPostComment: (post: IPost, comment: IComment, user: IUser) => Promise<void>;
@@ -20,6 +19,10 @@ class Service implements Iservice {
         const posts = await postDao.getAllPostsForUser(user);
         return posts;
     }
+    public async getAllPosts(): Promise<IPost[] | null> {
+        const posts = await postDao.getAllPosts();
+        return posts;
+    }
 
     public async addPosts(userId: string, post: IPost) :Promise<IPost> {
         const posts = await postDao.addPosts(userId,post);
@@ -27,7 +30,7 @@ class Service implements Iservice {
     }
 
     public async deletePosts(userId: string, post: IPost):Promise<void> {
-        const posts = await postDao.deletePosts(userId,post);            
+        const posts = await postDao.deletePosts(userId,post);
         return {} as any;
     }
 
