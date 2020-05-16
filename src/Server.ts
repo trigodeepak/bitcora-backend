@@ -14,7 +14,7 @@ import connection from '@daos/connection';
 
 // Init express
 const app = express();
-const mongoDB = require('./mongoDB');
+//const mongoDB = require('./mongoDB');
 
 if(process.env.CONNECTION_STRING)
     connection(process.env.CONNECTION_STRING);
@@ -44,7 +44,7 @@ if (process.env.NODE_ENV === 'development') {
 if (process.env.NODE_ENV === 'production') {
     app.use(helmet());
 }
-app.use(mongoDB);
+//app.use(mongoDB);
 
 
 // Add APIs
