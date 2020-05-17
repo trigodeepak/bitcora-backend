@@ -22,7 +22,7 @@ class PostDao implements IPostDao{
     public async getPostById(postId : string) : Promise<any | null>{
         const result = await postSchema.find({_id:postId});
         console.log(result);
-        return result;
+        return result[0];
     }
 
     public async getAllPostsForUser(userId: string) : Promise<any[] | null>{
@@ -32,11 +32,11 @@ class PostDao implements IPostDao{
         return result;
     }
 
-    public async getPostForUser(userId: string,postId : string) : Promise<any[] | null>{
+    public async getPostForUser(userId: string,postId : string) : Promise<any | null>{
         console.log('Came to getAllPostsForUser ');
         const result = await postSchema.find({_id:postId,userId:userId});
         console.log(result);
-        return result;
+        return result[0];
     }
 
     public async getAllPosts() : Promise<any[] | null>{
