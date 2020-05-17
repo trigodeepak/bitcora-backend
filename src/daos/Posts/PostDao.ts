@@ -1,5 +1,5 @@
 import {IUser} from '@entities/User'
-import {IPost} from '@entities/Posts'
+import {IPost,AuditInfo} from '@entities/Posts'
 import {IComment} from '@entities/Posts'
 import {postSchema} from '@daos/schema' 
 import {commentSchema} from '@daos/schema'
@@ -49,14 +49,16 @@ class PostDao implements IPostDao{
     public async addPosts(userId:string,post:IPost):Promise<IPost>{
         console.log(post);
         post.userId = userId;
-        //const collection: any = getCollection();
+        //Adding the audit info
+        const auditObj = new AuditInfo(userId,new Date().toString(),"","");
+        post.auditInfo = auditObj;
         const result = await postSchema.create(post);
         console.log(result);
         return result as unknown as IPost;
     }
 
     public async updatePosts(post: IPost): Promise<void> {
-        const result = await postSchema.updateOne({_id:post.id},{$set:{title:post.title,content:post.content}});
+        const result = await postSchema.updateOne({_id:post.id},{$set:{title:post.title,content:post.content,'auditInfo.updatedBy': post.userId,'auditInfo.updatedOn': new Date().toString()}});
         console.log(result);
         return {} as any;
     }
@@ -78,6 +80,7 @@ class PostDao implements IPostDao{
         console.log('Came to addPostComment ');
         comment.userId = user.id;
         comment.postId = post.id
+        comment.auditInfo = new AuditInfo(user.id,new Date().toString(),"",""); 
         const result = await commentSchema.create(comment);
         console.log(result);
         return {} as any;
@@ -91,7 +94,7 @@ class PostDao implements IPostDao{
         return result;
     }
 
-    //Todo delete comment, update comment , update post
+    //Todo update comment
 
     public async deleteComment(postId:string,comment:IComment):Promise<void>{
         console.log('Came to deletePosts ');

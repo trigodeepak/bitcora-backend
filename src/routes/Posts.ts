@@ -60,7 +60,17 @@ router.post('/add', async (req: Request, res: Response) => {
     return res.status(CREATED).json({posts});
 });
 
-//Make an api to update post 
+router.put('/update', async (req: Request, res: Response) => {
+    const { post } = req.body;
+    if (!post) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
+    await postDao.updatePosts(post);
+    return res.status(OK).end();
+});
+
 
 router.delete('/delete', async (req: Request, res: Response) => {
     const { user } = req.body;
