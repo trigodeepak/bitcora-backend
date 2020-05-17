@@ -8,8 +8,10 @@ import {commentSchema} from '@daos/schema'
 // we will not add comments in post table for comments we have PostDetails
 
 export interface IPostDao{
-    getAllPostsForUser : (user : IUser) => Promise<any[] | null>;
+    getPostById : (postId : string) => Promise<any|null>;
+    getAllPostsForUser : (userId : string) => Promise<any[] | null>;
     getAllPosts : () => Promise<any[] | null>;
+    getPostForUser : (userId : string, postId : string) => Promise<any[] | null>;
     addPosts : (userId:string,post:IPost) => Promise<IPost>;
     deletePosts : (userId:string,post : IPost) => Promise<void>;
     addPostComment : (post : IPost, comment : IComment, user : IUser) => Promise<void>;
@@ -17,12 +19,26 @@ export interface IPostDao{
 
 class PostDao implements IPostDao{
 
-    public async getAllPostsForUser(user: IUser) : Promise<any[] | null>{
-        console.log('Came to getAllPostsForUser ');
-        const result = await postSchema.find({userId:user.id});
+    public async getPostById(postId : string) : Promise<any | null>{
+        const result = await postSchema.find({_id:postId});
         console.log(result);
         return result;
     }
+
+    public async getAllPostsForUser(userId: string) : Promise<any[] | null>{
+        console.log('Came to getAllPostsForUser ');
+        const result = await postSchema.find({userId:userId});
+        console.log(result);
+        return result;
+    }
+
+    public async getPostForUser(userId: string,postId : string) : Promise<any[] | null>{
+        console.log('Came to getAllPostsForUser ');
+        const result = await postSchema.find({_id:postId,userId:userId});
+        console.log(result);
+        return result;
+    }
+
     public async getAllPosts() : Promise<any[] | null>{
         console.log('Came to getAllPosts ');
         const result = await postSchema.find();

@@ -10,15 +10,36 @@ import PostDao from '@daos/Posts/PostDao';
 const router = Router();
 const postDao = new PostDao();
 
-
-router.get('/all', async (req: Request, res: Response) => {
-    const { user } = req.body;
-    if (!user) {
+router.get('/postId/:postId', async (req: Request, res: Response) => {
+    const { postId } = req.params as ParamsDictionary;
+    if (!postId) {
         return res.status(BAD_REQUEST).json({
             error: paramMissingError,
         });
     }
-    const posts = await postDao.getAllPostsForUser(user);
+    const post = await postDao.getPostById(postId);
+    return res.status(OK).json(post);
+});
+
+router.get('/userId/:userId', async (req: Request, res: Response) => {
+    const { userId } = req.params as ParamsDictionary;
+    if (!userId) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
+    const posts = await postDao.getAllPostsForUser(userId);
+    return res.status(OK).json({posts});
+});
+
+router.get('/userId/:userId/postId/:postId', async (req: Request, res: Response) => {
+    const { userId,postId } = req.params as ParamsDictionary;
+    if (!userId || !postId) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
+    const posts = await postDao.getPostForUser(userId,postId);
     return res.status(OK).json({posts});
 });
 
