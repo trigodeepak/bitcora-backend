@@ -88,7 +88,23 @@ class PostDao implements IPostDao{
 
     public async getAllCommentsForPost(post:IPost) : Promise<any[] | null>{
         console.log('Came to getAllCommentsForPost ');
-        const result = commentSchema.find({postId:post.id})
+        const result = commentSchema.aggregate([
+            {$match : {postId : post.id
+            }},
+            {$project : {
+                userId : {
+                    $toObjectId : "$userId"
+                },
+                text : 1
+            }},
+            { $lookup:
+              {
+                from: 'users',
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'UserDetails'
+              }
+            }]);
         
         console.log(result);
         return result;

@@ -97,13 +97,16 @@ router.post('/addcomment', async (req: Request, res: Response) => {
     return res.status(OK).end();
 });
 
-router.get('/allcomments', async (req: Request, res: Response) => {
+router.post('/allcomments', async (req: Request, res: Response) => {
     const { post } = req.body;
+    console.log("All comments")
+    console.log(req.body)
     if (!post) {
         return res.status(BAD_REQUEST).json({
             error: paramMissingError,
         });
     }
+    
     const comments = await postDao.getAllCommentsForPost(post);
     return res.status(OK).json({comments});
 });
