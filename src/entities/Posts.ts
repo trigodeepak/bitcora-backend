@@ -65,6 +65,31 @@ export class Comment implements IComment{
 
 }
 
+export interface ILike {
+    id: string
+    postId: string
+    userId: string
+    like: number
+    auditInfo: AuditInfo
+}
+
+export class Like implements ILike {
+    public id: string;
+    public postId: string;
+    public userId: string;
+    public like: number;
+    public auditInfo: AuditInfo;
+
+    constructor(id: string, postId: string, userId: string, like: number) {
+        this.id = id;
+        this.postId = postId;
+        this.userId = userId;
+        this.like = like;
+        this.auditInfo = new AuditInfo("", "", "", "");
+    }
+
+}
+
 export class AuditInfo{
     public createdBy: string ; 
     public createdOn: string ; 
