@@ -54,8 +54,21 @@ class UserDao implements IUserDao {
     }
 
     public async login(user : IUser) : Promise<IUser>{
-        const result = await userSchema.create(user);
-        console.log(result);
+        const userDoc = await userSchema.findOne({email : user.email});
+        const userFound = userDoc as unknown as IUser;
+        console.log(user);
+        if(userDoc){
+            console.log(userDoc);
+            bcrypt.genSalt(10,(err,salt)=> 
+        bcrypt.hash(user.password,salt,(err,hash)=>{
+            if(err) throw err;
+            if(hash === userFound.password){
+                console.log('Authenticated');
+            }
+            console.log(hash);
+        }))
+            
+        }
         return {} as any;
     }
 

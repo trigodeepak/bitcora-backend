@@ -69,12 +69,15 @@ router.delete('/delete/:email', async (req: Request, res: Response) => {
  *                                     Export
  ******************************************************************************/
 
-router.post('/login', async (req, res, next) => {
-    passport.authenticate('local', {
-      successRedirect: '/dashboard',
-      failureRedirect: '/users/login',
-      failureFlash: true
-    })(req, res, next);
+router.post('/login', async (req: Request, res: Response) => {
+    const { user } = req.body;
+    if (!user || !user.password || !user.email) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
+    await userDao.login(user);
+    return res.status(CREATED).end();
 });
 
 router.post('/register', async (req: Request, res: Response) => {
