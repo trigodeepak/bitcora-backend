@@ -10,7 +10,13 @@ import 'express-async-errors';
 import BaseRouter from './routes';
 import logger from '@shared/Logger';
 import connection from '@daos/connection';
+const passport = require('passport');
+const session = require('express-session');
+var flash=require("connect-flash");
 
+require('./daos/User/passportConfig')(passport);
+
+//configFile(passport);
 
 // Init express
 const app = express();
@@ -34,6 +40,19 @@ app.use((req, res, next)=> {
     next();
 });
 
+// Express session
+app.use(
+    session({
+      secret: 'secret',
+      resave: true,
+      saveUninitialized: true
+    })
+  );
+  
+  // Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // Show routes called in console during development
 if (process.env.NODE_ENV === 'development') {
@@ -46,7 +65,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 //app.use(mongoDB);
 
-
+app.use(flash());
 // Add APIs
 app.use('/api', BaseRouter);
 
