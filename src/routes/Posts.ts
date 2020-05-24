@@ -111,4 +111,17 @@ router.post('/allcomments', async (req: Request, res: Response) => {
     return res.status(OK).json({comments});
 });
 
+router.post('/like', async (req: Request, res: Response) => {
+    const { user } = req.body;
+    const { post } = req.body;
+    const { like } = req.body;
+    if (!user || !post) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
+    await postDao.addPostLike(post,like,user);
+    return res.status(OK).end();
+});
+
 export default router;

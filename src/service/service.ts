@@ -1,5 +1,5 @@
 import User, { IUser } from '@entities/User'
-import { IPost } from '@entities/Posts'
+import {ILike, IPost} from '@entities/Posts'
 import PostDao from '@daos/Posts/PostDao'
 import {IComment} from '@entities/Posts'
 
@@ -11,6 +11,7 @@ export interface Iservice {
     addPosts: (userId: string, post: IPost) => Promise<IPost>;
     deletePosts: (userId: string, post: IPost) => Promise<void>;
     addPostComment: (post: IPost, comment: IComment, user: IUser) => Promise<void>;
+    addPostLike:(post: IPost, like : ILike, user: IUser)=> Promise<void>;
 }
 
 class Service implements Iservice {
@@ -36,6 +37,12 @@ class Service implements Iservice {
 
     public async addPostComment(post: IPost, comment: IComment, user: IUser):Promise<void>{
         const posts = await postDao.addPostComment(post,comment,user)
+        return {} as any;
+    }
+
+
+    public async addRemovePostLike(post: IPost, like: ILike, user: IUser):Promise<void>{
+        const posts = await postDao.addPostLike(post,like,user);
         return {} as any;
     }
 
