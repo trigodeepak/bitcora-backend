@@ -88,18 +88,18 @@ class PostDao implements IPostDao {
 
         like.userId = user.id;
         like.postId = post.id
-        like.like =1;
+        like.like = 1;
         like.auditInfo = new AuditInfo(user.id, new Date().toString(), "", "");
         await likeSchema.create(like);
-        let likeSche = await likeSchema.find({postId : post.id});
+        let likeDoc = await likeSchema.find({postId : post.id});
+        let likeSche = likeDoc as unknown as ILike;
         if(likeSche){
             let totalLikes = likeSche.like;
             likeSche.like = totalLikes+1;
-            const result = await commentSchema.update(likeSche);
+            const result = await likeSchema.update({postId : post.id},{$set : {like : totalLikes +1}});
         }
         else{
-            likeSche.like=1;
-            const result = await commentSchema.create(likeSche);
+            const result = await likeSchema.create(like);
         }
 
         return {} as any;
