@@ -114,14 +114,36 @@ router.post('/allcomments', async (req: Request, res: Response) => {
 router.post('/like', async (req: Request, res: Response) => {
     const { user } = req.body;
     const { post } = req.body;
-    const { like } = req.body;
     if (!user || !post) {
         return res.status(BAD_REQUEST).json({
             error: paramMissingError,
         });
     }
-    await postDao.addPostLike(post,like,user);
+    await postDao.addPostLike(post.id,user.id);
     return res.status(OK).end();
+});
+
+router.post('/removelike', async (req: Request, res: Response) => {
+    const { user } = req.body;
+    const { post } = req.body;
+    if (!user || !post) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
+    await postDao.removepostLike(post.id,user.id);
+    return res.status(OK).end();
+});
+
+router.get('/getlike/:postId', async (req: Request, res: Response) => {
+    const { postId } = req.params as ParamsDictionary;
+    if (!postId) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
+    const result = await postDao.getLikes(postId);
+    return res.status(OK).json({result});
 });
 
 export default router;

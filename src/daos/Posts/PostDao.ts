@@ -1,4 +1,4 @@
-import {IUser} from '@entities/User'
+import User, {IUser} from '@entities/User'
 import {IPost, AuditInfo} from '@entities/Posts'
 import {IComment} from '@entities/Posts'
 import {ILike} from '@entities/Posts'
@@ -84,25 +84,64 @@ class PostDao implements IPostDao {
         return {} as any;
     }
 
-    public async addPostLike(post: IPost, like: ILike, user: IUser): Promise<void> {
-
-        like.userId = user.id;
-        like.postId = post.id
-        like.like = 1;
-        like.auditInfo = new AuditInfo(user.id, new Date().toString(), "", "");
-        await likeSchema.create(like);
-        let likeDoc = await likeSchema.find({postId : post.id});
-        let likeSche = likeDoc as unknown as ILike;
+    public async addPostLike(postId: string, userId: string): Promise<void> {
+        let likeDoc = await likeSchema.findOne({postId : postId});
+        let likeSche : ILike = likeDoc as unknown as ILike;
+        likeSche = JSON.parse(JSON.stringify(likeSche));
         if(likeSche){
-            let totalLikes = likeSche.like;
-            likeSche.like = totalLikes+1;
-            const result = await likeSchema.update({postId : post.id},{$set : {like : totalLikes +1}});
+            console.log("here",likeSche)
+            console.log(likeSche.postId);
+            if (likeSche.userIdList.indexOf(userId) != -1)
+            {
+                console.log('already liked');
+                return {} as any;
+            }
+            likeSche.userIdList.push(userId);
+            likeSche.like = likeSche.like+1
+            const result = await likeSchema.update({postId : postId},{$set : {like : likeSche.like
+                ,'auditInfo.updatedBy': userId, userIdList : likeSche.userIdList,
+            'auditInfo.updatedOn': new Date().toString()}});
         }
         else{
+            const auditObj = new AuditInfo(userId, new Date().toString(), "", "");
+            const like : ILike = {
+                id : "",
+                like : 1,
+                postId : postId,
+                userIdList : [userId],
+                auditInfo : auditObj
+            };
+
             const result = await likeSchema.create(like);
         }
-
         return {} as any;
+    }
+
+    public async getLikes(postId : string) : Promise<ILike>{
+        const result = likeSchema.findOne({postId : postId});
+        console.log(result);
+        if(result != null || result != {})
+            return result as unknown as ILike;
+        else 
+            return {like : 0} as any;
+    }
+
+    public async removepostLike(postId : string, userId : string): Promise<void>{
+        let likeDoc = await likeSchema.find({postId : postId});
+        let likeSche = likeDoc as unknown as ILike;
+        likeSche = JSON.parse(JSON.stringify(likeSche));
+        if(likeSche ){
+            const index = likeSche.userIdList.indexOf(userId);
+            if (index > -1) {
+                likeSche.userIdList.splice(index, 1);
+            }
+            const result = await likeSchema.update({postId : postId},{$set : {like : likeSche.like
+                ,'auditInfo.updatedBy': userId, userIdList : likeSche.userIdList,
+            'auditInfo.updatedOn': new Date().toString()}});
+
+        }else{
+            console.log('No Like object for this Post');
+        }
     }
 
     public async addPostComment(post: IPost, comment: IComment, user: IUser): Promise<void> {
