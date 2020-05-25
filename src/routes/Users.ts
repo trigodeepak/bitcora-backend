@@ -5,6 +5,8 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import UserDao from '@daos/User/UserDao';
 import { paramMissingError } from '@shared/constants';
 
+const passport = require('passport')
+
 // Init shared
 const router = Router();
 const userDao = new UserDao();
@@ -66,5 +68,27 @@ router.delete('/delete/:email', async (req: Request, res: Response) => {
 /******************************************************************************
  *                                     Export
  ******************************************************************************/
+
+router.post('/login', async (req: Request, res: Response) => {
+    const { user } = req.body;
+    if (!user || !user.password || !user.email) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
+    await userDao.login(user);
+    return res.status(CREATED).end();
+});
+
+router.post('/register', async (req: Request, res: Response) => {
+    const { user } = req.body;
+    if (!user || !user.password || !user.name || !user.email) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
+    await userDao.register(user);
+    return res.status(CREATED).end();
+});
 
 export default router;

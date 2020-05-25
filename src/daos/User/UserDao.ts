@@ -1,5 +1,6 @@
 import { IUser } from '@entities/User';
 import { userSchema } from '@daos/schema';
+import bcrypt from 'bcryptjs';
 
 export interface IUserDao {
     getOne: (email: string) => Promise<any | null>;
@@ -50,6 +51,43 @@ class UserDao implements IUserDao {
         const result = await userSchema.deleteOne({email:email});
         console.log(result);
         return {} as any;
+    }
+
+    public async login(user : IUser) : Promise<IUser>{
+        const userDoc = await userSchema.findOne({email : user.email});
+        const userFound = userDoc as unknown as IUser;
+        console.log(user);
+        if(userDoc){
+            console.log(userDoc);
+            bcrypt.genSalt(10,(err,salt)=> 
+        bcrypt.hash(user.password,salt,(err,hash)=>{
+            if(err) throw err;
+            if(hash === userFound.password){
+                console.log('Authenticated');
+            }
+            console.log(hash);
+        }))
+            
+        }
+        return {} as any;
+    }
+
+    public async register(user: IUser): Promise<void> {
+        bcrypt.genSalt(10,(err,salt)=> 
+        bcrypt.hash(user.password,salt,(err,hash)=>{
+            if(err) throw err;
+            // set password to hashed 
+            user.password = hash;
+            console.log(hash);
+            console.log(user);
+            userSchema.create(user).then(result=>{
+                console.log(result);
+                return result;
+            })
+
+            
+        }))
+        
     }
 }
 

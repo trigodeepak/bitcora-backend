@@ -7,7 +7,8 @@ export default (connectionString:string) => {
         mongoose.connect(connectionString, {
             socketTimeoutMS: 0,
             keepAlive: true,
-            reconnectTries: 30
+            useNewUrlParser: true,
+            useUnifiedTopology: true
           })
         .then(() => {
             return console.log(`Successfully connected to ${connectionString}`);
