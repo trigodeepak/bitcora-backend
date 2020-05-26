@@ -76,8 +76,8 @@ router.post('/login', async (req: Request, res: Response) => {
             error: paramMissingError,
         });
     }
-    await userDao.login(user);
-    return res.status(CREATED).end();
+    const result = await userDao.login(user);
+    return res.status(OK).json(result);
 });
 
 router.post('/register', async (req: Request, res: Response) => {

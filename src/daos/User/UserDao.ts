@@ -55,21 +55,24 @@ class UserDao implements IUserDao {
 
     public async login(user : IUser) : Promise<IUser>{
         const userDoc = await userSchema.findOne({email : user.email});
-        const userFound = userDoc as unknown as IUser;
-        console.log(user);
-        if(userDoc){
-            console.log(userDoc);
-            bcrypt.genSalt(10,(err,salt)=> 
-        bcrypt.hash(user.password,salt,(err,hash)=>{
-            if(err) throw err;
-            if(hash === userFound.password){
-                console.log('Authenticated');
+        let userFound = userDoc as unknown as IUser;
+        console.log(userFound);
+        userFound = JSON.parse(JSON.stringify(userDoc));
+        if(userFound){
+            console.log(userFound.password);
+            const result = await bcrypt.compare(user.password, userFound.password);
+            console.log(result);
+            if(result){
+                userFound.password = "";
+                return userFound;
+            }else{
+                throw new Error("Password Not Correct");
+                
             }
-            console.log(hash);
-        }))
-            
         }
-        return {} as any;
+        else{
+            throw new Error("User email Not Found");
+        }
     }
 
     public async register(user: IUser): Promise<void> {
@@ -84,8 +87,6 @@ class UserDao implements IUserDao {
                 console.log(result);
                 return result;
             })
-
-            
         }))
         
     }
